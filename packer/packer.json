@@ -1,0 +1,77 @@
+{
+    "variables": {
+		"client_id": "",
+		"client_secret": "",
+		"subscription_id": "",
+		"tenant_id": "",
+        "managed_image_resource_group_name": "",
+		"shared_image_gallery_name": "",
+        "shared_resource_group_name": "",
+        "image_name": "",
+        "image_version": "",
+        "ssh_username": "",
+        "ssh_password": "",
+        "WARPackageName": "",
+        "WorkingDirectory": "",
+		"image_publisher": "",
+		"image_offer": "",
+		"image_sku": "",
+        "vm_size": ""
+    },
+    "sensitive-variables": ["client_secret"],
+    "builders": [
+        {
+            "type": "azure-arm",
+			"os_type": "Linux",
+			"communicator": "ssh",
+            "client_id": "{{user `client_id`}}",
+            "client_secret": "{{user `client_secret`}}",
+            "tenant_id": "{{user `tenant_id`}}",
+            "subscription_id": "{{user `subscription_id`}}",
+            "ssh_username": "{{user `ssh_username`}}",
+            "ssh_password": "{{user `ssh_password`}}",
+            "ssh_pty": "true",
+            "managed_image_name": "{{user `image_name`}}-{{user `image_version`}}-{{timestamp}}",
+            "managed_image_resource_group_name": "{{user `managed_image_resource_group_name`}}",
+			"build_resource_group_name": "{{user `managed_image_resource_group_name`}}",
+			"image_publisher": "{{user `image_publisher`}}",
+			"image_offer": "{{user `image_offer`}}",
+			"image_sku": "{{user `image_sku`}}",
+            "vm_size": "{{user `vm_size`}}",
+			"azure_tags": {
+                "application": "bastion",
+                "os": "redhat",
+                "platform": "linux"
+            },
+			"shared_image_gallery_destination": {
+                "resource_group": "{{user `shared_resource_group_name`}}",
+                "gallery_name": "{{user `shared_image_gallery_name`}}",
+                "image_name": "bastion_ansible_standard",
+                "image_version": "1.0.0",
+                "replication_regions": [
+                    "eastus"
+                ]
+            }
+        }
+    ],
+    "provisioners":[
+		{
+            "type": "shell",
+            "execute_command": "echo '{{user `ssh_password`}}' | {{ .Vars }} sudo -S -E sh '{{ .Path }}'",
+			"inline": [
+				"yum update",
+				"yum -y install ansible",
+				"ansible --version"
+			  ]
+        },
+		{
+			"execute_command": "echo '{{user `ssh_pass`}}' | {{ .Vars }} sudo -S -E sh '{{ .Path }}'",
+			"inline": [
+			  "/usr/sbin/waagent -force -deprovision+user && export HISTSIZE=0 && sync"
+			],
+			"inline_shebang": "/bin/sh -x",
+			"type": "shell",
+			"skip_clean": true
+		}
+    ]
+}

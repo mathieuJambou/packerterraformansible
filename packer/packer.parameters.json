@@ -1,0 +1,18 @@
+{
+	"client_id": "",
+	"client_secret": "",
+	"subscription_id": "",
+	"tenant_id": "",
+	"managed_image_resource_group_name": "tadmin",
+	"shared_image_gallery_name": "tadmin_shared_images",
+    "shared_resource_group_name": "tadmin",
+	"image_name": "BST",
+	"image_version": "0.01",
+	"ssh_username": "packer",
+	"ssh_password": "packer",
+	"WorkingDirectory": ".",
+	"image_publisher": "RedHat",
+	"image_offer": "RHEL",
+	"image_sku": "7-LVM",
+    "vm_size": "Standard_DS1_v2"
+}
