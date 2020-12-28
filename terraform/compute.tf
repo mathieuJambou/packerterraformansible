@@ -89,10 +89,10 @@ resource "null_resource" "bastion_provisioner" {
     }
 	inline = [
       "ansible --version",
-	  "echo $'Host jumpboxtuto-*\n  IdentitiesOnly yes\n  IdentityFile ~/.ssh/jumpboxtuto_rsa' > ~/.ssh/config",
-	  "echo $'${tls_private_key.worker_ssh.private_key_pem}' > ~/.ssh/jumpboxtuto_rsa",
+	  "echo $'Host jumpboxansible-*\n  IdentitiesOnly yes\n  IdentityFile ~/.ssh/jumpboxansible_rsa' > ~/.ssh/config",
+	  "echo $'${tls_private_key.worker_ssh.private_key_pem}' > ~/.ssh/jumpboxansible_rsa",
 	  "chmod 600 ~/.ssh/config",
-	  "chmod 600 ~/.ssh/jumpboxtuto_rsa"
+	  "chmod 600 ~/.ssh/jumpboxansible_rsa"
     ]
   }
   

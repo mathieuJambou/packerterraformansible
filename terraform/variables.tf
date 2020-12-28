@@ -14,7 +14,7 @@ variable "tags" {
 # Define prefix for consistent resource naming.
 variable "resource_prefix" {
   type        = string
-  default     = "jumpboxtuto"
+  default     = "jumpboxansible"
   description = "Service prefix to use for naming of resources."
 }
 
